@@ -1,0 +1,28 @@
+{
+  "name": "noteworthy-backend",
+  "version": "2.1.0",
+  "private": true,
+  "description": "Backend API pre projekt Noteworthy s autentifikáciou, Azure Blob Storage a OCR poznámkami",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "@azure/storage-blob": "12.31.0",
+    "@google-cloud/vision": "5.3.5",
+    "bcryptjs": "3.0.3",
+    "cors": "2.8.5",
+    "dotenv": "16.6.1",
+    "express": "5.2.1",
+    "helmet": "8.1.0",
+    "jsonwebtoken": "9.0.3",
+    "morgan": "1.10.1",
+    "mssql": "12.2.1",
+    "multer": "2.1.1"
+  }
+}
