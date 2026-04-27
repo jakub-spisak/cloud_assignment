@@ -1,0 +1,88 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL}
+    container_name: noteworthy-frontend
+    ports:
+      - "${FRONTEND_PORT}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - fe_be_net
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: noteworthy-backend
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+      ALLOWED_ORIGIN: ${ALLOWED_ORIGIN}
+      OCR_PROVIDER: ${OCR_PROVIDER}
+      OCR_MOCK_TEXT: ${OCR_MOCK_TEXT}
+      OCR_MAX_CLOUD_REQUESTS_PER_USER_PER_DAY: ${OCR_MAX_CLOUD_REQUESTS_PER_USER_PER_DAY}
+      OCR_MAX_CLOUD_REQUESTS_PROJECT_PER_DAY: ${OCR_MAX_CLOUD_REQUESTS_PROJECT_PER_DAY}
+      GOOGLE_CLOUD_AUTH_MODE: ${GOOGLE_CLOUD_AUTH_MODE}
+      GOOGLE_SERVICE_ACCOUNT_JSON_BASE64: ${GOOGLE_SERVICE_ACCOUNT_JSON_BASE64}
+      GOOGLE_SERVICE_ACCOUNT_JSON: ${GOOGLE_SERVICE_ACCOUNT_JSON}
+      GOOGLE_SERVICE_ACCOUNT_PROJECT_ID: ${GOOGLE_SERVICE_ACCOUNT_PROJECT_ID}
+      GOOGLE_CLOUD_VISION_API_KEY: ${GOOGLE_CLOUD_VISION_API_KEY}
+      STORAGE_PROVIDER: ${STORAGE_PROVIDER}
+      STORE_SOURCE_IMAGES: ${STORE_SOURCE_IMAGES}
+      AZURE_BLOB_CONNECTION_STRING: ${AZURE_BLOB_CONNECTION_STRING}
+      AZURE_BLOB_CONTAINER_NAME: ${AZURE_BLOB_CONTAINER_NAME}
+      AZURE_BLOB_CREATE_CONTAINER_IF_MISSING: ${AZURE_BLOB_CREATE_CONTAINER_IF_MISSING}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+      DB_SERVER: ${DB_SERVER}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_ENCRYPT: ${DB_ENCRYPT}
+      DB_TRUST_SERVER_CERTIFICATE: ${DB_TRUST_SERVER_CERTIFICATE}
+    depends_on:
+      - sqlserver
+    ports:
+      - "3000:3000"
+    networks:
+      - fe_be_net
+      - be_db_net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 30s
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: noteworthy-sqlserver
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_PID: Developer
+      MSSQL_SA_PASSWORD: ${SA_PASSWORD}
+    expose:
+      - "1433"
+    volumes:
+      - noteworthy_sql_data:/var/opt/mssql
+    networks:
+      - be_db_net
+    restart: unless-stopped
+
+volumes:
+  noteworthy_sql_data:
+    name: noteworthy_sql_data
+
+networks:
+  fe_be_net:
+    name: noteworthy_fe_be_net
+  be_db_net:
+    name: noteworthy_be_db_net
