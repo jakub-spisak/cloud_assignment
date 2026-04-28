@@ -31,7 +31,7 @@ Používateľ má následne k dispozícii zoznam svojich poznámok, detail s cel
 Architektúra aplikácie pozostáva z piatich hlavných komponentov, ktoré spolu komunikujú nasledovne:
 
 - **Klientská vrstva** — Browser (prehliadač používateľa) sťahuje statický React bundle z Azure Blob Storage Static Website a následne komunikuje cez HTTPS s REST API.
-- **Aplikačná vrstva** — Azure App Service (Linux, Node 22, Basic B1 plan) hostuje Express REST API. Aplikácia validuje JWT tokeny pri každom chránenom endpointe, hashuje heslá pomocou bcrypt a uplatňuje strict CORS politiku iba na URL frontendu.
+- **Aplikačná vrstva** — Azure App Service (Linux, Node 24, Basic B1 plan) hostuje Express REST API. Aplikácia validuje JWT tokeny pri každom chránenom endpointe, hashuje heslá pomocou bcrypt a uplatňuje strict CORS politiku iba na URL frontendu.
 - **Dátová vrstva** — Azure SQL Database (serverless, Free offer) ukladá tri tabuľky: Users, Notes, OcrUsageEvents. Backend sa pripája cez mssql driver s povinným šifrovaním.
 - **Externá AI vrstva** — Google Cloud Vision API poskytuje OCR rozpoznávanie textu z obrázkov v `DOCUMENT_TEXT_DETECTION` móde. Backend autentifikuje volania pomocou service account credentials uložených v Application Settings ako Base64-zakódovaný JSON.
 - **Monitorovacia vrstva** — Azure Application Insights automaticky zachytáva requesty, exceptions, performance metriky a custom logy z App Service.
@@ -68,7 +68,7 @@ Browser (React SPA)
 
 ## 3. Odôvodnenie zvolených technológií
 
-### 3.1 Frontend: React 18 + Vite
+### 3.1 Frontend: React 19 + Vite
 React patrí medzi najpoužívanejšie technológie na tvorbu Single Page Applications. Component-based architektúra umožňuje rozdeliť UI na samostatné jednotky (`AuthPanel`, `UploadForm`, `NotesList`, `NoteDetail`), ktoré sa dajú nezávisle vyvíjať a testovať.
 
 Vite ako build nástroj sme zvolili kvôli rýchlosti — produkčný build trvá pod 10 sekúnd a vývojový dev server má hot module replacement. Vite navyše prirodzene podporuje environment variables s prefixom `VITE_`, čo umožňuje ľahko meniť backend URL pri builde pre rôzne prostredia (lokál vs Azure).
@@ -100,13 +100,13 @@ Blob Storage Static Website poskytuje pre potreby tohto projektu prakticky ekviv
 - HTTPS endpoint je dostupný okamžite po vytvorení
 - Index a 404 dokumenty sú konfigurovateľné
 
-### 3.4 Backend hosting: Azure App Service (Linux, Node 22, B1)
+### 3.4 Backend hosting: Azure App Service (Linux, Node 24, B1)
 App Service je PaaS riešenie pre web aplikácie — Microsoft sa stará o OS patche, runtime, scaling. My iba nahráme kód.
 
 **Konkrétne nastavenia:**
 
 - Linux namiesto Windows — natívnejšie pre Node.js, lacnejšie tier-y
-- Node 22 LTS — aktuálny LTS s podporou do 2027 (Node 20 LTS prešlo do maintenance v apríli 2026)
+- Node 24 LTS — aktuálny LTS s podporou do 2027 (Node 20 LTS prešlo do maintenance v apríli 2026)
 - Basic B1 (~13 USD/mesiac) namiesto Free F1 — F1 má limit 60 minút CPU denne a podlieha `QuotaExceeded` pri viacerých neúspešných deployoch. B1 je always-on a bez tohto limitu, čo umožňuje stabilné demo
 
 Application Insights bol pridaný pri vytváraní App Service. Zachytáva requesty, metriky, exceptions a performance dáta; počas vývoja slúžil najmä na kontrolu requestov a chybových stavov backendu.
@@ -227,7 +227,7 @@ Aplikácia implementuje viacero vrstiev bezpečnosti.
 
 - Návrh cloud architektúry a výber služieb
 - Nasadenie na Azure (App Service, SQL Database, Blob Storage)
-- Dokumentácia projektu (`README.md` a `DOKUMENTACIA.docx`)
+- Dokumentácia projektu (`README.md` a `docs/documentation.md`)
 - Bezpečnostné poistky proti nákladom (denné OCR limity, free-safe defaults)
 
 **Konkrétne súbory a moduly:**
