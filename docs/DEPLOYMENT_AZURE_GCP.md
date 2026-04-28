@@ -18,7 +18,7 @@ V Azure App Service nastav tieto hodnoty v časti **Settings → Environment var
 - `PORT=3000`
 - `ALLOWED_ORIGIN=https://<storage-account>.z1.web.core.windows.net`
 - `JWT_SECRET=<dlhy-nahodny-secret>`
-- `JWT_EXPIRES_IN=7d`
+- `JWT_EXPIRES_IN=2h`
 
 `ALLOWED_ORIGIN` musí byť presná URL frontendu bez trailing slash.  
 `JWT_SECRET` musí byť dlhý náhodný reťazec a nesmie byť uložený v Gite.
