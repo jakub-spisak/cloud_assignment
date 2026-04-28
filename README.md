@@ -170,7 +170,7 @@ Detailný postup nasadenia na Azure + Google Cloud je v `docs/DEPLOYMENT_AZURE_G
 ## Bezpečnosť
 
 - Hashovanie hesiel cez bcrypt (cost factor 12)
-- JWT tokeny s 7-dňovou expiráciou (HMAC-SHA256)
+- JWT tokeny s 2-hodinovou expiráciou (HMAC-SHA256)
 - Per-user dátová izolácia na úrovni SQL queries (`WHERE userId = ?`)
 - HTTPS na všetkých koncových bodoch
 - Helmet middleware (X-Content-Type-Options, X-Frame-Options, atď.)
