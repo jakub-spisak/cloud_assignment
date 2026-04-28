@@ -1,8 +1,0 @@
-name: backend-azure-app-service-example
-on:
-  workflow_dispatch:
-jobs:
-  placeholder:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Replace with your real Azure App Service deploy workflow after resource creation."
