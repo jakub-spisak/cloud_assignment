@@ -241,7 +241,7 @@ Aplikácia implementuje viacero vrstiev bezpečnosti.
 **Predpoklady:**
 
 - Docker Desktop nainštalovaný a bežiaci
-- Voľný port 8080 (frontend), 3000 (backend), 1433 (MSSQL)
+- Voľný port 8080 (frontend), voľný port 3000 (backend) a 1433 (MSSQL) iba vo vnútri docker siete
 
 **Kroky:**
 
