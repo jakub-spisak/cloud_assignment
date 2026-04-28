@@ -27,11 +27,11 @@
 - `DB_TRUST_SERVER_CERTIFICATE=false`
 
 
-## Free-safe odporúčanie pre obhajobu
+## Free-safe odporúčanie 
 
 ### Azure
 - frontend hostuj cez Azure Blob Storage Static Website
-- backend drž na čo najnižšom free / student-compatible pláne, alebo ho ukáž lokálne v Dockeri a do cloudu nahadzuj až tesne pred obhajobou
+- backend drž na čo najnižšom free / student-compatible pláne
 - databázu vytvor ako Azure SQL Database v free offer / student-compatible limite
 - v Azure zapni budget alerts a nechaj spending limit zapnutý, ak je na tvojej študentskej subskripcii dostupný
 
