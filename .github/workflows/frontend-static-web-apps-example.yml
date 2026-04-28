@@ -1,8 +1,0 @@
-name: frontend-static-web-apps-example
-on:
-  workflow_dispatch:
-jobs:
-  placeholder:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Replace with your real Azure Static Web Apps workflow after resource creation."
