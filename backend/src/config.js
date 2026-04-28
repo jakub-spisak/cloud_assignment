@@ -35,7 +35,7 @@ const config = {
   ocrMaxCloudRequestsPerUserPerDay: toNumber(process.env.OCR_MAX_CLOUD_REQUESTS_PER_USER_PER_DAY, 3),
   ocrMaxCloudRequestsProjectPerDay: toNumber(process.env.OCR_MAX_CLOUD_REQUESTS_PROJECT_PER_DAY, 12),
   jwtSecret: process.env.JWT_SECRET || '',
-  jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN || '2h',
   storageProvider: (process.env.STORAGE_PROVIDER || 'local').toLowerCase(),
   storeSourceImages: toBoolean(process.env.STORE_SOURCE_IMAGES, true),
   azureBlobConnectionString: process.env.AZURE_BLOB_CONNECTION_STRING || '',
