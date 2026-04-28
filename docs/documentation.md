@@ -145,7 +145,7 @@ Aplikácia implementuje viacero vrstiev bezpečnosti.
 **Autentifikácia a autorizácia:**
 
 - bcrypt hash hesiel s cost factor 12 (cca 250 ms hash time)
-- JWT tokeny s 7-dňovou expiráciou, podpísané HMAC-SHA256
+- JWT tokeny s 2-hodinovou expiráciou, podpísané HMAC-SHA256
 - Server-side overovanie tokenu pri každom chránenom endpointe (`requireAuth` middleware)
 
 **Izolácia dát:**
